@@ -51,17 +51,22 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                int tab = tabLayout.getSelectedTabPosition();
+
+                if (tab == 1){
+                    Intent intent = new Intent(MainActivity.this, AddDestinationActivity.class);
+                    MainActivity.this.startActivity(intent);
+                }
+
             }
         });
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
         SectionsPageAdapter adapter = new SectionsPageAdapter(getSupportFragmentManager());
         if (Config.APP_TYPE == 1){
             adapter.addFragment(new BarkerHomeFragment(), "Home");
+            adapter.addFragment(new BarkerDestinationFragment(), "Queue");
         }
         else if (Config.APP_TYPE == 2){
             adapter.addFragment(new PassengerHomeFragment(), "Home");

@@ -47,6 +47,8 @@ public class TabFragment extends Fragment {
                 switch (position) {
                     case 0:
                         return new BarkerHomeFragment();
+                    case 1:
+                        return new BarkerDestinationFragment();
                 }
             }
             else if (Config.APP_TYPE == 2){
@@ -72,6 +74,8 @@ public class TabFragment extends Fragment {
                 switch (position){
                     case 0 :
                         return "Home";
+                    case 1 :
+                        return "Queue";
                 }
             }
             else if (Config.APP_TYPE == 2){

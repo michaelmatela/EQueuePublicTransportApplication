@@ -39,6 +39,8 @@ public class BarkerHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_barker_home,container,false);
 
+
+
         tvFirstName = (TextView) view.findViewById(R.id.tvFirstName);
         tvLastName = (TextView) view.findViewById(R.id.tvLastName);
         tvEmail = (TextView) view.findViewById(R.id.tvEmail);

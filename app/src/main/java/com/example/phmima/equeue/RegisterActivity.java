@@ -74,7 +74,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         sample.add(ds.getValue().toString());
                     }
                     fillSpinner(sample);
-
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {

@@ -105,9 +105,12 @@ public class LoginActivity extends AppCompatActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                // do some stuff once
                 if (snapshot.hasChild("terminal")) {
                     if (Config.APP_TYPE == 1){
+                        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("terminal", snapshot.child("terminal").getValue().toString());
+                        editor.commit();
                         progressDialog.dismiss();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         LoginActivity.this.startActivity(intent);
