@@ -55,6 +55,8 @@ public class TabFragment extends Fragment {
                 switch (position){
                     case 0:
                         return new PassengerHomeFragment();
+                    case 1:
+                        return new TerminalFragment();
                 }
             }
             return null;
@@ -82,6 +84,8 @@ public class TabFragment extends Fragment {
                 switch (position){
                     case 0:
                         return "Home";
+                    case 1:
+                        return "Terminal";
                 }
             }
 

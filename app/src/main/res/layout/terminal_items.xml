@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@drawable/border"
     android:layout_height="300dp">
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="216dp"
@@ -14,7 +12,7 @@
         android:scaleType="centerCrop"/>
 
     <TextView
-        android:text="Destination"
+        android:text="Terminal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView9"
@@ -24,6 +22,6 @@
         android:text=""
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvDestination"
+        android:id="@+id/tvTerminal"
         android:textSize="20dp" />
 </LinearLayout>

@@ -1,6 +1,5 @@
 package com.example.phmima.equeue;
 
-
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,9 +15,13 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DestinationAdapter
-       extends RecyclerView.Adapter<DestinationAdapter.MyViewHolder> {
-    private List<Destination> destinationList;
+/**
+ * Created by phmima on 7/24/2017.
+ */
+
+public class TerminalAdapter
+        extends RecyclerView.Adapter<TerminalAdapter.MyViewHolder> {
+    private List<Terminal> terminalList;
     private Context context;
     private ArrayList<StorageReference> storageReferences;
 
@@ -30,25 +33,25 @@ public class DestinationAdapter
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvDestination;
+        public TextView tvTerminal;
         public ImageView ivPic;
 
         public MyViewHolder(View view){
             super(view);
-            tvDestination = (TextView) view.findViewById(R.id.tvDestination);
+            tvTerminal = (TextView) view.findViewById(R.id.tvTerminal);
             ivPic = (ImageView) view.findViewById(R.id.ivPic);
         }
     }
 
-    public DestinationAdapter(List<Destination> destinationList){
-        this.destinationList = destinationList;
+    public TerminalAdapter(List<Terminal> terminalList){
+        this.terminalList = terminalList;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position){
-        Destination d = destinationList.get(position);
+        Terminal d = terminalList.get(position);
         StorageReference storageReference = storageReferences.get(position);
-        holder.tvDestination.setText(d.getDestination());
+        holder.tvTerminal.setText(d.getTerminal().toString());
         Glide.with(this.context)
                 .using(new FirebaseImageLoader())
                 .load(storageReference)
@@ -58,13 +61,13 @@ public class DestinationAdapter
 
     @Override
     public int getItemCount(){
-        return destinationList.size();
+        return terminalList.size();
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.destination_items, parent, false);
+                .inflate(R.layout.terminal_items, parent, false);
         return new MyViewHolder(v);
     }
 

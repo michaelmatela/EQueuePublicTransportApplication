@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else if (Config.APP_TYPE == 2){
             adapter.addFragment(new PassengerHomeFragment(), "Home");
+            adapter.addFragment(new TerminalFragment(),"Terminal");
         }
 
         viewPager.setAdapter(adapter);

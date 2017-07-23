@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,20 +26,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class BarkerDestinationFragment extends Fragment implements PopupMenu.OnMenuItemClickListener{
+public class TerminalFragment extends Fragment implements PopupMenu.OnMenuItemClickListener{
 
-    private static String destinationItem;
+    private static String terminalItem;
     private View view;
-    private DestinationAdapter da;
-    private ArrayList<Destination> destinationList;
+    private TerminalAdapter da;
+    private ArrayList<Terminal> terminalList;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
@@ -59,20 +53,17 @@ public class BarkerDestinationFragment extends Fragment implements PopupMenu.OnM
 
         popup.setOnMenuItemClickListener(this);
 
-        SharedPreferences preferences = getActivity().getSharedPreferences("MYPREFS", MODE_PRIVATE);
-        terminal = preferences.getString("terminal", "");
-
-        getDestinationList();
+        getTerminalList();
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.show();
         return view;
     }
 
-    private void getDestinationList(){
-        destinationList = new ArrayList<Destination>();
+    private void getTerminalList(){
+        terminalList = new ArrayList<Terminal>();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference().child("Destination").child(terminal);
+        myRef = mFirebaseDatabase.getReference().child("TerminalList");
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -80,17 +71,15 @@ public class BarkerDestinationFragment extends Fragment implements PopupMenu.OnM
                 ArrayList<StorageReference> storageReferences = new ArrayList<StorageReference>();
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     FirebaseStorage storage = FirebaseStorage.getInstance();
-                    StorageReference storageRef = storage.getReference().child("Destination").child(ds.child("terminal").getValue().toString()).child(ds.child("destination").getValue().toString());
-                    Destination destination = new Destination();
-                    destination.setDestination(ds.child("destination").getValue().toString());
-                    destination.setPhoto("");
-                    destination.setTerminal(ds.child("terminal").getValue().toString());
+                    StorageReference storageRef = storage.getReference().child("Terminal").child(ds.getValue().toString()).child("photo.jpg");
+                    Terminal terminal = new Terminal();
+                    terminal.setTerminal(ds.getValue().toString());
                     storageReferences.add(storageRef);
 
-                    destinationList.add(destination);
+                    terminalList.add(terminal);
                 }
 
-                da = new DestinationAdapter(destinationList);
+                da = new TerminalAdapter(terminalList);
                 da.setContext(getContext());
 
 
@@ -109,7 +98,7 @@ public class BarkerDestinationFragment extends Fragment implements PopupMenu.OnM
                                 System.out.println(Config.APP_TYPE);
                                 if (Config.APP_TYPE == 1){
                                     popup.show();
-                                    destinationItem = ((TextView)v.findViewById(R.id.tvDestination)).getText().toString();
+                                    terminalItem = ((TextView)v.findViewById(R.id.tvDestination)).getText().toString();
                                 }
                                 else if (Config.APP_TYPE == 2){
 
@@ -135,15 +124,11 @@ public class BarkerDestinationFragment extends Fragment implements PopupMenu.OnM
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.mnuEditDestination:
-                Intent intentQueue = new Intent(getActivity(), ManageQueueActivity.class);
-                intentQueue.putExtra("destination", destinationItem);
-                getActivity().startActivity(intentQueue);
+                Intent intentDestination = new Intent(getActivity(), ManageQueueActivity.class);
+                intentDestination.putExtra("terminal", terminalItem);
+                getActivity().startActivity(intentDestination);
                 return true;
-            case R.id.mnuManagePUV:
-                Intent intentPUV = new Intent(getActivity(), ManagePUVActivity.class);
-                intentPUV.putExtra("destination", destinationItem);
-                getActivity().startActivity(intentPUV);
-                return true;
+
             default:
                 return false;
         }
