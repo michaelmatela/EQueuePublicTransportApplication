@@ -106,6 +106,9 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
                 alert.show();
             }
         });
+
+        if (Config.APP_TYPE == 2)
+            fab.hide();
     }
 
     private void getQueueList(){

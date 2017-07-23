@@ -54,6 +54,7 @@ public class ManagePUVActivity extends AppCompatActivity implements PopupMenu.On
         SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
         terminal = preferences.getString("terminal", "");
         Firebase.setAndroidContext(this);
+
         popup = new PopupMenu(this, view);
         MenuInflater inflater2 = popup.getMenuInflater();
         inflater2.inflate(R.menu.barker_queue_menu, popup.getMenu());
@@ -72,7 +73,8 @@ public class ManagePUVActivity extends AppCompatActivity implements PopupMenu.On
                 startActivity(intent);
             }
         });
-
+        if(Config.APP_TYPE == 2)
+            fab.hide();
     }
 
 

@@ -49,7 +49,7 @@ public class TerminalFragment extends Fragment implements PopupMenu.OnMenuItemCl
 
         popup = new PopupMenu(getActivity(), view);
         MenuInflater inflater2 = popup.getMenuInflater();
-        inflater2.inflate(R.menu.barker_destination_menu, popup.getMenu());
+        inflater2.inflate(R.menu.terminal_menu, popup.getMenu());
 
         popup.setOnMenuItemClickListener(this);
 
@@ -101,7 +101,8 @@ public class TerminalFragment extends Fragment implements PopupMenu.OnMenuItemCl
                                     terminalItem = ((TextView)v.findViewById(R.id.tvDestination)).getText().toString();
                                 }
                                 else if (Config.APP_TYPE == 2){
-
+                                    popup.show();
+                                    terminalItem = ((TextView)v.findViewById(R.id.tvTerminal)).getText().toString();
                                 }
                             }
 
@@ -123,8 +124,8 @@ public class TerminalFragment extends Fragment implements PopupMenu.OnMenuItemCl
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.mnuEditDestination:
-                Intent intentDestination = new Intent(getActivity(), ManageQueueActivity.class);
+            case R.id.mnuDestination:
+                Intent intentDestination = new Intent(getActivity(), DestinationActivity.class);
                 intentDestination.putExtra("terminal", terminalItem);
                 getActivity().startActivity(intentDestination);
                 return true;

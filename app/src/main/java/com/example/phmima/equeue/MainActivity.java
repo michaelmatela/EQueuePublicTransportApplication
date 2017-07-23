@@ -60,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        setTitle("Barker Application");
+        if (Config.APP_TYPE == 2){fab.hide();
+            setTitle("Passenger Application");
+        }
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
