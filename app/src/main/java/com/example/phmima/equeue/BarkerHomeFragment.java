@@ -39,8 +39,6 @@ public class BarkerHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_barker_home,container,false);
 
-
-
         tvFirstName = (TextView) view.findViewById(R.id.tvFirstName);
         tvLastName = (TextView) view.findViewById(R.id.tvLastName);
         tvEmail = (TextView) view.findViewById(R.id.tvEmail);
@@ -48,17 +46,16 @@ public class BarkerHomeFragment extends Fragment {
 
         getAccountData();
 
-
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.hide();
         return view;
     }
 
     private void getAccountData(){
-
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("Profile").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 tvFirstName.setText(snapshot.child("firstName").getValue().toString());
@@ -66,6 +63,7 @@ public class BarkerHomeFragment extends Fragment {
                 tvEmail.setText(snapshot.child("email").getValue().toString());
                 tvTerminal.setText(snapshot.child("terminal").getValue().toString());
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }

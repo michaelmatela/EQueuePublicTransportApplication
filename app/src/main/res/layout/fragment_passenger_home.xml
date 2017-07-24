@@ -11,7 +11,7 @@
             android:layout_width="wrap_content"
             android:layout_height="216dp"
             app:srcCompat="@drawable/img2"
-            android:id="@+id/imageView"
+            android:id="@+id/ivPic"
             android:scaleType="centerCrop"/>
 
         <TextView
@@ -21,14 +21,14 @@
             android:textSize="15dp"
             android:id="@+id/textView2" />
 
-        <TextView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:text=""
             android:ems="10"
             android:textSize="20dp"
-            android:id="@+id/tvFirstName" />
+            android:id="@+id/etFirstName" />
 
         <TextView
             android:text="Last Name"
@@ -37,14 +37,14 @@
             android:textSize="15dp"
             android:id="@+id/textView" />
 
-        <TextView
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:text=""
             android:textSize="20dp"
             android:ems="10"
-            android:id="@+id/tvLastName" />
+            android:id="@+id/etLastName" />
 
         <TextView
             android:text="Email Address"
@@ -60,6 +60,19 @@
             android:ems="10"
             android:textSize="20dp"
             android:id="@+id/tvEmail" />
+
+        <Button
+            android:text="Edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnEdit" />
+
+        <Button
+            android:text="Cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnCancel"
+            android:visibility="invisible"/>
     </LinearLayout>
 
 

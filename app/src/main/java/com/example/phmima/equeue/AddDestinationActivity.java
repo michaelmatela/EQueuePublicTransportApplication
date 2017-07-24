@@ -91,26 +91,26 @@ public class AddDestinationActivity extends AppCompatActivity {
 
     private void addDestination(){
         if (ivPic.getTag() != null){
-        Firebase ref = new Firebase(Config.FIREBASE_URL);
-        Destination destination = new Destination();
+            Firebase ref = new Firebase(Config.FIREBASE_URL);
+            Destination destination = new Destination();
 
-        destination.setTerminal(this.terminal);
-        destination.setDestination(this.destination);
-        destination.setPhoto("");
+            destination.setTerminal(this.terminal);
+            destination.setDestination(this.destination);
+            destination.setPhoto("");
 
-        ref.child("Destination").child(this.terminal).child(this.destination).setValue(destination);
+            ref.child("Destination").child(this.terminal).child(this.destination).setValue(destination);
 
-        String path = ivPic.getTag().toString();
-        Uri uri = Uri.parse(path);
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference().child("Destination").child(this.terminal).child(this.destination);
-        storageRef.putFile(uri);
+            String path = ivPic.getTag().toString();
+            Uri uri = Uri.parse(path);
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageRef = storage.getReference().child("Destination").child(this.terminal).child(this.destination);
+            storageRef.putFile(uri);
 
 
 
-        Toast.makeText(getBaseContext(), "Add destination successful.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Add destination successful.", Toast.LENGTH_LONG).show();
 
-        etDestination.setText("");
+            etDestination.setText("");
         }
         else{
             Toast.makeText(getBaseContext(), "Please choose a photo for this destination", Toast.LENGTH_LONG).show();
