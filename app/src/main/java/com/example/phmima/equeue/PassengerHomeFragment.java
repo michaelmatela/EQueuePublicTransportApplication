@@ -66,8 +66,7 @@ public class PassengerHomeFragment extends Fragment {
         btnEdit = (Button) view.findViewById(R.id.btnEdit);
         btnCancel = (Button) view.findViewById(R.id.btnCancel);
 
-        etFirstName.setEnabled(false);
-        etLastName.setEnabled(false);
+
         btnEdit.setText("Edit");
         btnCancel.setEnabled(false);
 
@@ -79,12 +78,16 @@ public class PassengerHomeFragment extends Fragment {
                     btnEdit.setText("Save");
                     etFirstName.setEnabled(true);
                     etLastName.setEnabled(true);
+                    etFirstName.setFocusable(true);
+                    etLastName.setFocusable(true);
                     btnCancel.setEnabled(true);
                     btnCancel.setVisibility(view.VISIBLE);
                 }
                 else if(btnEdit.getText().toString().equals("Save")){
                     etFirstName.setEnabled(false);
                     etLastName.setEnabled(false);
+                    etFirstName.setFocusable(false);
+                    etLastName.setFocusable(false);
                     btnEdit.setText("Edit");
                     btnCancel.setEnabled(false);
                     btnCancel.setVisibility(view.INVISIBLE);
@@ -97,23 +100,15 @@ public class PassengerHomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(btnEdit.getText().toString().equals("Edit")) {
-                    btnEdit.setText("Save");
-                    etFirstName.setEnabled(true);
-                    etLastName.setEnabled(true);
-                    btnCancel.setEnabled(true);
-                    btnCancel.setVisibility(view.VISIBLE);
-                }
-                else if(btnEdit.getText().toString().equals("Save")){
                     etFirstName.setEnabled(false);
                     etLastName.setEnabled(false);
+                    etFirstName.setFocusable(false);
+                    etLastName.setFocusable(false);
                     btnEdit.setText("Edit");
                     btnCancel.setEnabled(false);
                     btnCancel.setVisibility(view.INVISIBLE);
-                }
             }
         });
-
 
         ivPic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,9 +118,7 @@ public class PassengerHomeFragment extends Fragment {
                 getActivity().startActivityFromFragment(PassengerHomeFragment.this,pickPhoto , 1);//one can be replaced with any action code
             }
         });
-
         getAccountData();
-
         return view;
     }
 

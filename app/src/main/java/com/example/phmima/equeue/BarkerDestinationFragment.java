@@ -64,8 +64,6 @@ public class BarkerDestinationFragment extends Fragment implements PopupMenu.OnM
 
         getDestinationList();
 
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.show();
         return view;
     }
 

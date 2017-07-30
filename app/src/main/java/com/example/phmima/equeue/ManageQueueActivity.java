@@ -56,6 +56,7 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
         SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
         terminal = preferences.getString("terminal", "");
 
+        Firebase.setAndroidContext(this);
         popup = new PopupMenu(this, view);
         MenuInflater inflater2 = popup.getMenuInflater();
         inflater2.inflate(R.menu.barker_queue_menu, popup.getMenu());

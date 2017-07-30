@@ -47,7 +47,7 @@ public class BarkerHomeFragment extends Fragment {
         getAccountData();
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-        fab.hide();
+
         return view;
     }
 
