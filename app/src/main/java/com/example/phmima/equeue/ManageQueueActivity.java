@@ -46,6 +46,8 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
 
     private String terminal;
 
+    private SharedPreferences preferences;
+
     PopupMenu popup;
 
     @Override
@@ -53,8 +55,9 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage_queue);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
+        preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
         terminal = preferences.getString("terminal", "");
+
 
         Firebase.setAndroidContext(this);
         popup = new PopupMenu(this, view);
@@ -64,28 +67,50 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
 
         Bundle extras = getIntent().getExtras();
         destination = extras.getString("destination");
+        if (terminal.isEmpty())
+            terminal = extras.getString("terminal");
         getQueueList();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(ManageQueueActivity.this);
                 builder.setTitle("Add Queue");
-                builder.setMessage("Are you sure you want to add queue?");
+                String add_message = "Are you sure you want to add queue?";
+
+                if (Config.APP_TYPE == 2)
+                    add_message = "Are you sure you want to register to this destination?";
+                builder.setMessage(add_message);
 
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
                         Firebase ref = new Firebase(Config.FIREBASE_URL);
+                        String queue_count = String.valueOf(currentCount+1);
+                        String queue_date = String.valueOf(new Date().getTime());
                         Queue queue = new Queue();
                         queue.setTerminal(terminal);
                         queue.setDestination(destination);
                         queue.setStatus("Queueing");
-                        queue.setTime(String.valueOf(new Date().getTime()));
-                        queue.setQueue(String.valueOf(currentCount+1));
+                        queue.setTime(queue_date);
+                        queue.setQueue(queue_count);
 
                         ref.child("Queue").child(terminal).child(destination).child(String.valueOf(currentCount+1)).setValue(queue);
+
+                        if (Config.APP_TYPE == 2){
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("terminal", terminal);
+                            editor.putString("destination", destination);
+                            editor.putString("queue", queue_count);
+                            editor.putString("time", queue_date);
+                            editor.commit();
+
+                            Intent intentQueue = new Intent(ManageQueueActivity.this, MainActivity.class);
+                            intentQueue.putExtra("queue_message", "Successfully registered queue to " + destination + " from terminal " + terminal + ".");
+                            ManageQueueActivity.this.startActivity(intentQueue);
+                        }
 
                         Toast.makeText(getBaseContext(), "Add queue successful.", Toast.LENGTH_LONG).show();
 
@@ -107,9 +132,6 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
                 alert.show();
             }
         });
-
-        if (Config.APP_TYPE == 2)
-            fab.hide();
     }
 
     private void getQueueList(){
@@ -152,13 +174,6 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
                 qa = new QueueAdapter(newQueueList);
 
                 qa.notifyDataSetChanged();
-
-
-
-
-
-
-
                 qa.notifyDataSetChanged();
                 rv.setAdapter(qa);
                 LinearLayoutManager llm = new LinearLayoutManager(ManageQueueActivity.this);

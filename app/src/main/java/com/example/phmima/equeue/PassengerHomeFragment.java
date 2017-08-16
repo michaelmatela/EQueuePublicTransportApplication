@@ -2,12 +2,14 @@ package com.example.phmima.equeue;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.firebase.client.Firebase;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -33,6 +36,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class PassengerHomeFragment extends Fragment {
@@ -50,6 +54,7 @@ public class PassengerHomeFragment extends Fragment {
 
     private Button btnCancel;
     private Button btnEdit;
+    private Button btnRemoveQueue;
 
     private View view;
     @Override
@@ -65,10 +70,30 @@ public class PassengerHomeFragment extends Fragment {
 
         btnEdit = (Button) view.findViewById(R.id.btnEdit);
         btnCancel = (Button) view.findViewById(R.id.btnCancel);
-
+        btnRemoveQueue = (Button) view.findViewById(R.id.btnRemoveQueue);
 
         btnEdit.setText("Edit");
         btnCancel.setEnabled(false);
+
+        SharedPreferences preferences = getActivity().getSharedPreferences("MYPREFS", MODE_PRIVATE);
+
+        String terminal = preferences.getString("terminal", "");
+        String destination = preferences.getString("destination", "");
+        String queue = preferences.getString("queue", "");
+        String queue_date = preferences.getString("time", "");
+
+        if (!terminal.isEmpty() || !destination.isEmpty() || !queue.isEmpty() || !queue_date.isEmpty()){
+            View  view_passenger_queue = view.findViewById(R.id.passenger_queue_details);
+            view_passenger_queue.setVisibility(View.VISIBLE);
+            TextView tvTerminal = (TextView)view.findViewById(R.id.tvTerminal);
+            TextView tvDestination = (TextView) view.findViewById(R.id.tvDestination);
+            TextView tvQueue = (TextView) view.findViewById(R.id.tvQueue);
+            TextView tvDate = (TextView) view.findViewById(R.id.tvDate);
+            tvTerminal.setText(terminal);
+            tvDestination.setText(destination);
+            tvQueue.setText(queue);
+            tvDate.setText(queue_date);
+        }
 
         btnEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +118,23 @@ public class PassengerHomeFragment extends Fragment {
                     btnCancel.setVisibility(view.INVISIBLE);
                     setProfile();
                 }
+            }
+        });
+
+        btnRemoveQueue.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                SharedPreferences preferences = getActivity().getSharedPreferences("MYPREFS", MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("terminal", "");
+                editor.putString("destination", "");
+                editor.putString("queue", "");
+                editor.putString("time", "");
+                editor.commit();
+                View  view_passenger_queue = view.findViewById(R.id.passenger_queue_details);
+                view_passenger_queue.setVisibility(View.GONE);
+                Toast.makeText(getActivity(), "You are now removed from queue", Toast.LENGTH_LONG).show();
+
             }
         });
 

@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -65,6 +66,13 @@ public class MainActivity extends AppCompatActivity {
         if (Config.APP_TYPE == 2){
             fab.hide();
             setTitle("Passenger Application");
+            Bundle extras = getIntent().getExtras();
+            if(extras != null) {
+                if (extras.containsKey("queue_message")) {
+                    String queue_message = extras.getString("queue_message");
+                    Toast.makeText(MainActivity.this, queue_message, Toast.LENGTH_LONG).show();
+                }
+            }
         }
 
     }
