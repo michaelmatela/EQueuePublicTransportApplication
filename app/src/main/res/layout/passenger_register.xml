@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
         android:ems="10"
         android:textSize="20dp"
         android:id="@+id/etFirstName" />
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text=""
         android:textSize="20dp"
         android:ems="10"
         android:id="@+id/etLastName" />

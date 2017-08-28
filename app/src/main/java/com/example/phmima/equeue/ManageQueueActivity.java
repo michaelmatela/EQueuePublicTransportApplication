@@ -96,7 +96,6 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
                         queue.setStatus("Queueing");
                         queue.setTime(queue_date);
                         queue.setQueue(queue_count);
-
                         ref.child("Queue").child(terminal).child(destination).child(String.valueOf(currentCount+1)).setValue(queue);
 
                         if (Config.APP_TYPE == 2){
@@ -104,7 +103,10 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
                             editor.putString("terminal", terminal);
                             editor.putString("destination", destination);
                             editor.putString("queue", queue_count);
-                            editor.putString("time", queue_date);
+                            String epochString = queue_date;
+                            long epoch = Long.parseLong( queue_date );
+                            Date date = new Date( epoch  );
+                            editor.putString("time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
                             editor.commit();
 
                             Intent intentQueue = new Intent(ManageQueueActivity.this, MainActivity.class);
@@ -184,13 +186,15 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
                         new RecyclerItemListener.RecyclerTouchListener() {
                             public void onClickItem(View v, int position) {
                                 if (Config.APP_TYPE == 1){
-                                    PopupMenu popup = new PopupMenu(ManageQueueActivity.this, v);
-                                    MenuInflater inflater = popup.getMenuInflater();
-                                    inflater.inflate(R.menu.barker_queue_menu, popup.getMenu());
-                                    popup.show();
+                                    if (position == 0) {
+                                        PopupMenu popup = new PopupMenu(ManageQueueActivity.this, v);
+                                        MenuInflater inflater = popup.getMenuInflater();
+                                        inflater.inflate(R.menu.barker_queue_menu, popup.getMenu());
+                                        popup.show();
 
-                                    popup.setOnMenuItemClickListener(ManageQueueActivity.this);
-                                    queueItem = ((TextView) v.findViewById(R.id.tvQueue)).getText().toString();
+                                        popup.setOnMenuItemClickListener(ManageQueueActivity.this);
+                                        queueItem = ((TextView) v.findViewById(R.id.tvQueue)).getText().toString();
+                                    }
 
                                 }
                                 else if (Config.APP_TYPE == 2){

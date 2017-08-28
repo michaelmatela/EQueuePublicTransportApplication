@@ -47,8 +47,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Firebase.setAndroidContext(this);
-
-
+        setTitle("Barker Application");
+        if (Config.APP_TYPE == 2)
+            setTitle("Passenger Application");
 
         progressDialog = new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();

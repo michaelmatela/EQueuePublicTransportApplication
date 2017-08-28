@@ -71,6 +71,7 @@
         <Button
             android:text="Edit"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:id="@+id/btnEdit" />
 
@@ -83,7 +84,7 @@
 
         <include layout="@layout/passenger_queue_details"
             android:id="@+id/passenger_queue_details"
-            android:visibility="invisible" />
+            android:visibility="gone" />
     </LinearLayout>
     </ScrollView>
 

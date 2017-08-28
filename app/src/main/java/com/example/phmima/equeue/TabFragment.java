@@ -78,6 +78,8 @@ public class TabFragment extends Fragment {
                         return "Home";
                     case 1 :
                         return "Queue";
+                    case 2:
+                        return "News";
                 }
             }
             else if (Config.APP_TYPE == 2){
@@ -86,6 +88,8 @@ public class TabFragment extends Fragment {
                         return "Home";
                     case 1:
                         return "Terminal";
+                    case 2:
+                        return "News";
                 }
             }
 

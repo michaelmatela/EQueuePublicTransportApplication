@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -30,60 +29,57 @@ import java.util.ArrayList;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class TerminalFragment extends Fragment implements PopupMenu.OnMenuItemClickListener{
-
-    private static String terminalItem;
+public class NewsFragment extends Fragment implements PopupMenu.OnMenuItemClickListener{
+    private static String newsItem;
     private View view;
-    private TerminalAdapter da;
-    private ArrayList<Terminal> terminalList;
+    private NewsAdapter da;
+    private ArrayList<News> newsList;
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
     PopupMenu popup;
-    private String terminal;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_barker_destination, container, false);
+        // Inflate the layout for this fragment
+        view = inflater.inflate(R.layout.fragment_news, container, false);
 
         popup = new PopupMenu(getActivity(), view);
         MenuInflater inflater2 = popup.getMenuInflater();
-        inflater2.inflate(R.menu.terminal_menu, popup.getMenu());
+        inflater2.inflate(R.menu.barker_destination_menu, popup.getMenu());
 
         popup.setOnMenuItemClickListener(this);
 
-        getTerminalList();
+        getNewsList();
 
         return view;
     }
 
-    private void getTerminalList(){
-        terminalList = new ArrayList<Terminal>();
+    private void getNewsList(){
+        newsList = new ArrayList<News>();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference().child("TerminalList");
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef = mFirebaseDatabase.getReference().child("News");
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-
-                ArrayList<StorageReference> storageReferences = new ArrayList<StorageReference>();
+                newsList.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    FirebaseStorage storage = FirebaseStorage.getInstance();
-                    StorageReference storageRef = storage.getReference().child("Terminal").child(ds.getValue().toString()).child("photo.jpg");
-                    Terminal terminal = new Terminal();
-                    terminal.setTerminal(ds.getValue().toString());
-                    storageReferences.add(storageRef);
+                    News news = new News();
 
-                    terminalList.add(terminal);
+                    try {
+                        news.setBody(ds.child("body").getValue().toString());
+                        news.setTimestamp(ds.child("timestamp").getValue().toString());
+                        news.setId(ds.child("id").getValue().toString());
+                        newsList.add(news);
+                    }catch(NullPointerException a){
+
+                    }
                 }
 
-                da = new TerminalAdapter(terminalList);
+                da = new NewsAdapter(newsList);
                 da.setContext(getContext());
-
-
-                da.setStorageReferences(storageReferences);
-
-                RecyclerView rv = (RecyclerView) view.findViewById(R.id.rvDestination);
+                da.notifyDataSetChanged();
+                RecyclerView rv = (RecyclerView) view.findViewById(R.id.rvNews);
 
                 rv.setAdapter(da);
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -96,11 +92,10 @@ public class TerminalFragment extends Fragment implements PopupMenu.OnMenuItemCl
                                 System.out.println(Config.APP_TYPE);
                                 if (Config.APP_TYPE == 1){
                                     popup.show();
-                                    terminalItem = ((TextView)v.findViewById(R.id.tvDestination)).getText().toString();
+                                    newsItem = ((TextView)v.findViewById(R.id.tvDestination)).getText().toString();
                                 }
                                 else if (Config.APP_TYPE == 2){
-                                    popup.show();
-                                    terminalItem = ((TextView)v.findViewById(R.id.tvTerminal)).getText().toString();
+
                                 }
                             }
 
@@ -116,23 +111,23 @@ public class TerminalFragment extends Fragment implements PopupMenu.OnMenuItemCl
         });
     }
 
-
-
-
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.mnuDestination:
-                Intent intentDestination = new Intent(getActivity(), DestinationActivity.class);
-                intentDestination.putExtra("terminal", terminalItem);
-                getActivity().startActivity(intentDestination);
+            case R.id.mnuEditDestination:
+                Intent intentQueue = new Intent(getActivity(), ManageQueueActivity.class);
+                intentQueue.putExtra("destination", newsItem);
+                getActivity().startActivity(intentQueue);
                 return true;
-
+            case R.id.mnuManagePUV:
+                Intent intentPUV = new Intent(getActivity(), ManagePUVActivity.class);
+                intentPUV.putExtra("destination", newsItem);
+                getActivity().startActivity(intentPUV);
+                return true;
             default:
                 return false;
         }
     }
-
 
 
 }

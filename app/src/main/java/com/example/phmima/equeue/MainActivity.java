@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, AddDestinationActivity.class);
                     MainActivity.this.startActivity(intent);
                 }
+                else if (tab == 2){
+                    Intent intent = new Intent(MainActivity.this, AddNews.class);
+                    MainActivity.this.startActivity(intent);
+                }
 
             }
         });
@@ -82,10 +87,12 @@ public class MainActivity extends AppCompatActivity {
         if (Config.APP_TYPE == 1){
             adapter.addFragment(new BarkerHomeFragment(), "Home");
             adapter.addFragment(new BarkerDestinationFragment(), "Queue");
+            adapter.addFragment(new NewsFragment(), "News");
         }
         else if (Config.APP_TYPE == 2){
             adapter.addFragment(new PassengerHomeFragment(), "Home");
             adapter.addFragment(new TerminalFragment(),"Terminal");
+            adapter.addFragment(new NewsFragment(), "News");
         }
 
         viewPager.setAdapter(adapter);
@@ -111,5 +118,23 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event)  {
+        if (Integer.parseInt(android.os.Build.VERSION.SDK) > 5
+                && keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            onBackPressed();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        MainActivity.this.startActivity(intent);
     }
 }
