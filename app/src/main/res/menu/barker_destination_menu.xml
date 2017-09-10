@@ -5,4 +5,6 @@
         android:title="Manage Queue" />
     <item android:id="@+id/mnuManagePUV"
         android:title="Manage PUV" />
+    <item android:id="@+id/mnuViewMap"
+        android:title="View Road"/>
 </menu>

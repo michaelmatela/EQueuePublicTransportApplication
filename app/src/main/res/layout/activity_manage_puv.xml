@@ -9,7 +9,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.phmima.equeue.ManagePUVActivity">
+    tools:context="com.example.phmima.equeue.ManagePUVActivity"
+    android:background="@drawable/gradient_background">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -142,6 +142,12 @@ public class BarkerDestinationFragment extends Fragment implements PopupMenu.OnM
                 intentPUV.putExtra("destination", destinationItem);
                 getActivity().startActivity(intentPUV);
                 return true;
+            case R.id.mnuViewMap:
+                Intent intentMap = new Intent(getActivity(), MapsActivity.class);
+                intentMap.putExtra("destination", destinationItem);
+                intentMap.putExtra("terminal", terminal);
+                getActivity().startActivity(intentMap);
+                return true;
             default:
                 return false;
         }

@@ -59,7 +59,7 @@ public class DestinationActivity extends AppCompatActivity implements PopupMenu.
         destinationList = new ArrayList<Destination>();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference().child("Destination").child(terminal);
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
 
@@ -68,12 +68,15 @@ public class DestinationActivity extends AppCompatActivity implements PopupMenu.
                     FirebaseStorage storage = FirebaseStorage.getInstance();
                     StorageReference storageRef = storage.getReference().child("Destination").child(ds.child("terminal").getValue().toString()).child(ds.child("destination").getValue().toString());
                     Destination destination = new Destination();
-                    destination.setDestination(ds.child("destination").getValue().toString());
-                    destination.setPhoto("");
-                    destination.setTerminal(ds.child("terminal").getValue().toString());
-                    storageReferences.add(storageRef);
+                    try {
+                        destination.setDestination(ds.child("destination").getValue().toString());
+                        destination.setPhoto("");
+                        destination.setTerminal(ds.child("terminal").getValue().toString());
+                        storageReferences.add(storageRef);
 
-                    destinationList.add(destination);
+                        destinationList.add(destination);
+                    }
+                    catch(NullPointerException a){}
                 }
 
                 da = new DestinationAdapter(destinationList);
@@ -131,6 +134,12 @@ public class DestinationActivity extends AppCompatActivity implements PopupMenu.
                 intentPUV.putExtra("destination", destinationItem);
                 intentPUV.putExtra("terminal", terminal);
                 DestinationActivity.this.startActivity(intentPUV);
+                return true;
+            case R.id.mnuViewMap:
+                Intent intentMap = new Intent(DestinationActivity.this, MapsActivity.class);
+                intentMap.putExtra("destination", destinationItem);
+                intentMap.putExtra("terminal", terminal);
+                DestinationActivity.this.startActivity(intentMap);
                 return true;
             default:
                 return false;
