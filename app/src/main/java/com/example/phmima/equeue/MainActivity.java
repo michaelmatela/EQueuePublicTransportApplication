@@ -116,6 +116,17 @@ public class MainActivity extends AppCompatActivity {
             MainActivity.this.startActivity(intent);
             return true;
         }
+        if (id == R.id.action_help) {
+            if (Config.APP_TYPE == 2) {
+                Intent intent = new Intent(MainActivity.this, PassengerHelp.class);
+                MainActivity.this.startActivity(intent);
+            }
+            else{
+                Intent intent = new Intent(MainActivity.this, PassengerHelp.class);
+                MainActivity.this.startActivity(intent);
+            }
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

@@ -36,7 +36,6 @@
         <activity android:name=".ManagePUVActivity" />
         <activity android:name=".AddPUVActivity" />
         <activity android:name=".SplashActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -59,9 +58,8 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps">
-
-        </activity>
+            android:label="@string/title_activity_maps"></activity>
+        <activity android:name=".PassengerHelp"></activity>
     </application>
 
 </manifest>

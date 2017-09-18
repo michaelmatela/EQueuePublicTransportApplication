@@ -71,6 +71,8 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
             terminal = extras.getString("terminal");
         getQueueList();
 
+        setTitle(terminal + " to " + destination);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

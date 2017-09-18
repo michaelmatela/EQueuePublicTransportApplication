@@ -61,6 +61,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         appType = Config.APP_TYPE;
 
+        // barker app type
         if (appType == 1) {
             setContentView(R.layout.barker_register);
             mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -136,6 +137,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void registerUser(){
+
         if (appType == 1)
             barkerStartUp();
         else

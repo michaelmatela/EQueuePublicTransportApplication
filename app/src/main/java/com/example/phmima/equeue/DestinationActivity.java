@@ -50,6 +50,7 @@ public class DestinationActivity extends AppCompatActivity implements PopupMenu.
 
         Bundle extras = getIntent().getExtras();
         terminal = extras.getString("terminal");
+        setTitle(terminal);
 
         getDestinationList();
     }

@@ -82,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
                 register();
             }
         });
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -176,6 +175,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    //go to register activity
     private void register(){
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         LoginActivity.this.startActivity(intent);

@@ -64,6 +64,8 @@ public class ManagePUVActivity extends AppCompatActivity implements PopupMenu.On
         destination = extras.getString("destination");
         getPUVList();
 
+        setTitle(terminal + " to " + destination);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
