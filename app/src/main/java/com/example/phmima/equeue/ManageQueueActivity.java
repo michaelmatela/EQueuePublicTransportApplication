@@ -98,25 +98,40 @@ public class ManageQueueActivity extends AppCompatActivity implements PopupMenu.
                         queue.setStatus("Queueing");
                         queue.setTime(queue_date);
                         queue.setQueue(queue_count);
-                        ref.child("Queue").child(terminal).child(destination).child(String.valueOf(currentCount+1)).setValue(queue);
+                        SharedPreferences preferences = getSharedPreferences("MYPREFS", MODE_PRIVATE);
+                        String queueSP = preferences.getString("queue", "");
+                        if (Config.APP_TYPE == 1)
+                            ref.child("Queue").child(terminal).child(destination).child(String.valueOf(currentCount+1)).setValue(queue);
+                        else {
+                            if (queueSP.isEmpty())
+                                ref.child("Queue").child(terminal).child(destination).child(String.valueOf(currentCount+1)).setValue(queue);
 
-                        if (Config.APP_TYPE == 2){
-                            SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("terminal", terminal);
-                            editor.putString("destination", destination);
-                            editor.putString("queue", queue_count);
-                            String epochString = queue_date;
-                            long epoch = Long.parseLong( queue_date );
-                            Date date = new Date( epoch  );
-                            editor.putString("time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
-                            editor.commit();
-
-                            Intent intentQueue = new Intent(ManageQueueActivity.this, MainActivity.class);
-                            intentQueue.putExtra("queue_message", "Successfully registered queue to " + destination + " from terminal " + terminal + ".");
-                            ManageQueueActivity.this.startActivity(intentQueue);
                         }
 
-                        Toast.makeText(getBaseContext(), "Add queue successful.", Toast.LENGTH_LONG).show();
+                        if (Config.APP_TYPE == 2){
+
+                            if (queueSP.isEmpty()) {
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("terminal", terminal);
+                                editor.putString("destination", destination);
+                                editor.putString("queue", queue_count);
+                                String epochString = queue_date;
+                                long epoch = Long.parseLong(queue_date);
+                                Date date = new Date(epoch);
+                                editor.putString("time", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+                                editor.commit();
+
+                                Intent intentQueue = new Intent(ManageQueueActivity.this, MainActivity.class);
+                                intentQueue.putExtra("queue_message", "Successfully registered queue to " + destination + " from terminal " + terminal + ".");
+                                ManageQueueActivity.this.startActivity(intentQueue);
+                            }
+                            else{
+                                Toast.makeText(getBaseContext(), "Please delete your current queue first.", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        if (Config.APP_TYPE == 1)
+                            Toast.makeText(getBaseContext(), "Add queue successful.", Toast.LENGTH_LONG).show();
 
                         dialog.dismiss();
                     }

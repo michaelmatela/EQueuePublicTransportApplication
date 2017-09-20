@@ -58,8 +58,9 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".PassengerHelp"></activity>
+            android:label="@string/title_activity_maps" />
+        <activity android:name=".PassengerHelp" />
+        <activity android:name=".BarkerHelp"></activity>
     </application>
 
 </manifest>

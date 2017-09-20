@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(intent);
             }
             else{
-                Intent intent = new Intent(MainActivity.this, PassengerHelp.class);
+                Intent intent = new Intent(MainActivity.this, BarkerHelp.class);
                 MainActivity.this.startActivity(intent);
             }
             return true;

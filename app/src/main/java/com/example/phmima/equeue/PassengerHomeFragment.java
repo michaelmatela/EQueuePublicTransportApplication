@@ -107,6 +107,7 @@ public class PassengerHomeFragment extends Fragment {
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
+                    try{
                     View view_passenger_queue = view.findViewById(R.id.passenger_queue_details);
                     view_passenger_queue.setVisibility(View.GONE);
                     SharedPreferences preferences = getActivity().getSharedPreferences("MYPREFS", MODE_PRIVATE);
@@ -164,8 +165,9 @@ public class PassengerHomeFragment extends Fragment {
                                 tvDate.setText(queue_date);
                             }
                         }
-
                     }
+                    }
+                    catch (NullPointerException e){}
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
